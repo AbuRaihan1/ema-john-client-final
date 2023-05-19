@@ -16,3 +16,18 @@
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+
+.pagination button {
+    margin: 5px;
+    cursor: pointer;
+}
+.selectedPage {
+    color: white;
+    background: orangered;
+    padding: 5px 10px;
+    border: none;
+    font-weight: bold;
+    border-radius: 5px;
+    
+}
