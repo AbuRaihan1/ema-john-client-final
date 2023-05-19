@@ -11,12 +11,24 @@ import "./Shop.css";
 
 const Shop = (props) => {
   const Loadedproducts = useLoaderData();
-  const { product, count } = Loadedproducts;
+  // const { product, count } = Loadedproducts;
   const [cart, setCart] = useState([]);
 
+  const [product, setProduct] = useState([]);
+  const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const pages = Math.ceil(count / perPage);
+
+  useEffect(() => {
+    const url = `http://localhost:5000/products?currentPage=${currentPage}&perPage=${perPage}`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        setCount(data.count);
+        setProduct(data.product);
+      });
+  }, [currentPage, perPage]);
 
   const clearCart = () => {
     setCart([]);
@@ -76,7 +88,9 @@ const Shop = (props) => {
       </div>
 
       <div className="pagination">
-        <p>selected page : {currentPage}</p>
+        <p>
+          selected page : {currentPage} & {perPage}
+        </p>
         {[...Array(pages).keys()].map((number) => (
           <button
             key={number}
@@ -86,6 +100,15 @@ const Shop = (props) => {
             {number}
           </button>
         ))}
+
+        <select onChange={(e) => setPerPage(e.target.value)}>
+          <option value="5">5</option>
+          <option value="10" selected>
+            10
+          </option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+        </select>
       </div>
     </div>
   );
